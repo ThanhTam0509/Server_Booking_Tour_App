@@ -1,16 +1,4 @@
 const AppError = require('./../utils/appError');
-// const ErrorStack = require('./../models/errorModel');
-
-const saveError = async (err) => {
-  const newError = await ErrorStack.create({
-    status: err.status,
-    error: err,
-    message: err.message,
-    stack: err.stack,
-  });
-
-  return newError.id;
-};
 
 const handleCastErrorDB = (err) => {
   const message = `Invalid ${err.path}: ${err.value}.`;
@@ -37,7 +25,7 @@ const handleJWTError = () =>
 const handleJWTExpiredError = () =>
   new AppError('Your token has expired! Please log in again.', 401);
 
-const sendErrorDev = async (err, req, res) => {
+const sendErrorDev = (err, req, res) => {
   // A) API
   if (req.originalUrl.startsWith('/api')) {
     return res.status(err.statusCode).json({
@@ -50,55 +38,47 @@ const sendErrorDev = async (err, req, res) => {
 
   // B) RENDERED WEBSITE
   console.error('ERROR 💥', err);
-  const errorId = await saveError(err);
   return res.status(err.statusCode).render('error', {
     title: 'Something went wrong!',
-    msg: `${err.message} (${errorId})`,
+    msg: err.message,
   });
 };
 
-const sendErrorProd = async (err, req, res) => {
+const sendErrorProd = (err, req, res) => {
   // A) API
   if (req.originalUrl.startsWith('/api')) {
     // A) Operational, trusted error: send message to client
     if (err.isOperational) {
-      const errorId = await saveError(err);
       return res.status(err.statusCode).json({
         status: err.status,
-        message: `${err.message} (${errorId})`,
+        message: err.message,
       });
     }
-
     // B) Programming or other unknown error: don't leak error details
     // 1) Log error
     console.error('ERROR 💥', err);
     // 2) Send generic message
-    const errorId = await saveError(err);
     return res.status(500).json({
       status: 'error',
-      message: `Something went wrong! (${errorId})`,
+      message: 'Something went very wrong!',
     });
   }
 
   // B) RENDERED WEBSITE
   // A) Operational, trusted error: send message to client
   if (err.isOperational) {
-    // console.log(err);
-    const errorId = await saveError(err);
     return res.status(err.statusCode).render('error', {
       title: 'Something went wrong!',
-      msg: `${err.message} (${errorId})`,
+      msg: err.message,
     });
   }
-
   // B) Programming or other unknown error: don't leak error details
   // 1) Log error
   console.error('ERROR 💥', err);
   // 2) Send generic message
-  const errorId = await saveError(err);
   return res.status(err.statusCode).render('error', {
     title: 'Something went wrong!',
-    msg: `Please try again later. (${errorId})`,
+    msg: 'Please try again later.',
   });
 };
 

@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
-const chalk = require('chalk');
 const dotenv = require('dotenv');
 
-// những cái này là dùng để khi server bị lỗi thì nó sẽ báo
 process.on('uncaughtException', (err) => {
   console.log('UNCAUGHT EXCEPTION! 💥 Shutting down...');
   console.log(err.name, err.message);
@@ -19,20 +17,17 @@ const DB = process.env.DATABASE.replace(
 
 mongoose
   .connect(DB, {
-    useUnifiedTopology: true,
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
   })
-  .then(() => console.log('DB connection successful!'))
-  .catch((err) => console.log(chalk.redBright(err)));
+  .then(() => console.log('DB connection successful!'));
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
-  console.log(`App running on port ${chalk.greenBright(port)}...`);
+  console.log(`App running on port ${port}...`);
 });
 
-// Dưới đây cũng vậy khi lỗi thì sẽ báo
 process.on('unhandledRejection', (err) => {
   console.log('UNHANDLED REJECTION! 💥 Shutting down...');
   console.log(err.name, err.message);

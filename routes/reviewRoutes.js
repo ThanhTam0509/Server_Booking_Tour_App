@@ -4,13 +4,8 @@ const authController = require('./../controllers/authController');
 
 const router = express.Router({ mergeParams: true });
 
-// POST /tour/32434fs35/reviews
-// GET /tour/32434fs35/reviews
-// POST /reviews
-
 router.use(authController.protect);
 
-// user review routes
 router
   .route('/')
   .get(reviewController.getAllReviews)
@@ -22,7 +17,7 @@ router
 
 router
   .route('/:id')
-  .get(reviewController.getlReview)
+  .get(reviewController.getReview)
   .patch(
     authController.restrictTo('user', 'admin'),
     reviewController.updateReview

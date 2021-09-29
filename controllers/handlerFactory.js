@@ -11,8 +11,7 @@ exports.deleteOne = (Model) =>
     }
 
     res.status(204).json({
-      // 204 means no content
-      status: 'Success',
+      status: 'success',
       data: null,
     });
   });
@@ -55,7 +54,7 @@ exports.getOne = (Model, popOptions) =>
     const doc = await query;
 
     if (!doc) {
-      return next(new AppError('No tour found with that ID', 404));
+      return next(new AppError('No document found with that ID', 404));
     }
 
     res.status(200).json({
@@ -72,7 +71,6 @@ exports.getAll = (Model) =>
     let filter = {};
     if (req.params.tourId) filter = { tour: req.params.tourId };
 
-    // EXECUTE QUERY
     const features = new APIFeatures(Model.find(filter), req.query)
       .filter()
       .sort()

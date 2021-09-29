@@ -1,9 +1,5 @@
 {
-  "extends": [
-    "airbnb",
-    "prettier",
-    "plugin:node/recommended"
-  ],
+  "extends": ["airbnb", "prettier", "plugin:node/recommended"],
   "plugins": ["prettier"],
   "rules": {
     "prettier/prettier": "off",
@@ -18,14 +14,8 @@
     "no-underscore-dangle": "off",
     "class-methods-use-this": "off",
     "dot-notation": "off",
-    "prefer-destructuring": [
-      "off",
-      { "object": true, "array": false }
-    ],
-    "no-unused-vars": [
-      "off",
-      { "argsIgnorePattern": "req|res|next|val" }
-    ],
+    "prefer-destructuring": ["off", { "object": true, "array": false }],
+    "no-unused-vars": ["off", { "argsIgnorePattern": "req|res|next|val" }],
     "parserOptions": {
       "sourceType": "module"
     }
