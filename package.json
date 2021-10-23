@@ -39,6 +39,7 @@
     "slugify": "^1.6.0",
     "stripe": "^8.176.0",
     "validator": "^13.6.0",
+    "xss": "^1.0.10",
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {
