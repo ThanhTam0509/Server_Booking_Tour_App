@@ -17,14 +17,6 @@ const DB = process.env.DATABASE.replace(
 
 mongoose.connect(DB, {}).then(() => console.log('DB connection successful!'));
 
-const stripe = require('stripe')('sk_test_26PHem9AhJZvU623DfE1x4sd');
-
-const paymentIntent = stripe.paymentIntents.create({
-  amount: 1099,
-  currency: 'usd',
-});
-const clientSecret = paymentIntent.client_secret;
-
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
   console.log(`App running on port ${port}...`);
