@@ -1,0 +1,7 @@
+{
+  "projects": {
+    "default": "booking-tour-app",
+    "dev": "booking-tour-app"
+  },
+  "targets": {}
+}
